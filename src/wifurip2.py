@@ -30,19 +30,29 @@ def main(i: str, d: int):
     if res:
         ls[lsLen - 1] = last[:res.regs[0][1]]
 
-    ids = {}
+    ls2 = []
+    
+    for i, chara in enumerate(ls):
+        # try:
+        #     id = bytes.fromhex(chara[2:chara.find('5e')]).decode('utf8')
+        # except Exception as e:
+        #     id = bytes.fromhex(chara[2:chara.find('60')]).decode('utf8')
 
-    for chara in ls:
-        id = bytes.fromhex(chara[2:chara.find('5e')])
+        id = bytes.fromhex(chara[2: 74 * 2]).decode('utf8')
 
-        if d != 0 and id in ids.keys():
-            if len(chara) > len(ids[id]):
-                ids[id] = chara
-            continue
-        
-        ids[id] = chara
+        if d != 0:
+            index = next((i for i, v in enumerate(ls2) if v[0] == id), None)
+            if index is not None:
+                clen = len(chara)
+                if clen > ls2[index][2]:
+                    ls2[index][1] = chara
+                    ls2[index][2] = clen
+                continue
+        ls2.append([id, chara, len(chara)])
+    
+    del ls
 
-    for id, chara in ids.items():
+    for id, chara, l in ls2:
         chara = start_str + chara
 
         res = re.search(r'7365780([01])', chara)
@@ -62,7 +72,7 @@ def main(i: str, d: int):
             offset = res.regs[0][1]
             fullname = bytes.fromhex(chara[offset: offset + (nameLen * 2)]).decode('utf8')
 
-        exportFilename = sex + '_' + id.decode('utf8') + '_' + fullname + '_' + str(round(time.time() * 1000)) + '.png'
+        exportFilename = sex + '_' + id + '_' + fullname + '_' + str(round(time.time() * 1000)) + '.png'
 
         with open(out + '\\' + exportFilename, 'wb') as ef:
             bs = bytes.fromhex(chara)
@@ -81,4 +91,4 @@ if __name__ == '__main__':
     # elif not args.i.endswith('.png'):
     #     raise NotImplementedError('不支持的文件格式')
     #
-    main('D:\\Games\\[ScrewThisNoise] HoneySelect 2 DX BetterRepack\\UserData\\Studio\\scene\\Mine\\2020_1010_0109_54_229.png', 1)
+    main('D:\\Games\\[ScrewThisNoise] HoneySelect 2 DX BetterRepack\\UserData\\Studio\\scene\\Mine\\2020_0801_0050_08_450.png', 0)
