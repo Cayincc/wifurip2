@@ -66,11 +66,16 @@ def main(i: str, d: int):
 
         fullname = ''
         res = re.search('66756c6c6e616d65([a-d])([0-9a-f])', chara)
-        if res:
-            multi = {'a':0, 'b':1, 'c':3, 'd':4}[res.group(1)] * 16
-            nameLen = int('0'+res.group(2), 16) + multi
+        if res: 
             offset = res.regs[0][1]
-            fullname = bytes.fromhex(chara[offset: offset + (nameLen * 2)]).decode('utf8')
+            if res.group(1) != 'd':
+                multi = {'a':0, 'b':1}[res.group(1)] * 16
+                nameLen = (int('0'+res.group(2), 16) + multi) * 2
+            else:
+                nameLen = chara.find('ab706572', offset) - offset
+                offset = offset + 2
+            
+            fullname = bytes.fromhex(chara[offset: offset + nameLen]).decode('utf8', 'ignore')
 
         exportFilename = sex + '_' + id + '_' + fullname + '_' + str(round(time.time() * 1000)) + '.png'
 
@@ -91,4 +96,4 @@ if __name__ == '__main__':
     # elif not args.i.endswith('.png'):
     #     raise NotImplementedError('不支持的文件格式')
     #
-    main('D:\\Games\\[ScrewThisNoise] HoneySelect 2 DX BetterRepack\\UserData\\Studio\\scene\\Mine\\2020_0801_0050_08_450.png', 0)
+    main('D:\\Games\\[ScrewThisNoise] HoneySelect 2 DX BetterRepack\\UserData\\Studio\\scene\\Mine\\2021_0422_1215_53_462.png', 1)
