@@ -4,7 +4,7 @@ from os import mkdir, path, getcwd
 import re
 
 def main(i: str, d: int):
-    # out = 'D:\\Games\\[ScrewThisNoise] HoneySelect 2 DX BetterRepack\\UserData\\chara\\female\\export'
+    # out = '.\\Export'
     out = getcwd() + '\\Export'
 
     if not path.exists(out):
@@ -96,5 +96,5 @@ if __name__ == '__main__':
     elif not args.i.endswith('.png'):
         raise NotImplementedError('不支持的文件格式')
     
-    # main('D:\\Games\\[ScrewThisNoise] HoneySelect 2 DX BetterRepack\\UserData\\Studio\\scene\\Mine\\2021_0701_2232_34_825.png', 1)
+    # main('D:\\Games\\[ScrewThisNoise] HoneySelect 2 DX BetterRepack\\UserData\\Studio\\scene\\Mine\\2021_0610_2123_44_310.png', 1)
     main(args.i, args.d)
