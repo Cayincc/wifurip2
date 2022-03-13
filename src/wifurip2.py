@@ -91,9 +91,10 @@ if __name__ == '__main__':
     parser.add_argument('-d', help='是否过滤重复: 0, 1', type=int, default='1')
     args = parser.parse_args()
 
-    # if not path.exists(args.i):
-    #     raise FileNotFoundError(args.i)
-    # elif not args.i.endswith('.png'):
-    #     raise NotImplementedError('不支持的文件格式')
-    #
-    main('D:\\Games\\[ScrewThisNoise] HoneySelect 2 DX BetterRepack\\UserData\\Studio\\scene\\Mine\\2021_0422_1215_53_462.png', 1)
+    if not path.exists(args.i):
+        raise FileNotFoundError(args.i)
+    elif not args.i.endswith('.png'):
+        raise NotImplementedError('不支持的文件格式')
+    
+    # main('D:\\Games\\[ScrewThisNoise] HoneySelect 2 DX BetterRepack\\UserData\\Studio\\scene\\Mine\\2021_0701_2232_34_825.png', 1)
+    main(args.i, args.d)
